@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<title>kzy1225.com｜ツール一覧</title>
+
+<style>
+
+body{
+    font-family: "IBM Plex Sans JP", sans-serif;
+    margin:0;
+    padding:40px 20px;
+    background:#f5f5f5;
+    font-size:18px;
+    color:#333;
+}
+
+.wrap{
+    max-width:800px;
+    margin:0 auto;
+}
+
+h1{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+p.lead{
+    color:#666;
+    margin-top:0;
+    margin-bottom:35px;
+}
+
+.card-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+a.card{
+    display:block;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:20px 24px;
+    text-decoration:none;
+    color:inherit;
+    transition:box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+}
+
+a.card:hover{
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+    border-color:#bbb;
+    transform:translateY(-2px);
+}
+
+.card-title{
+    font-size:20px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.card-icon{
+    font-size:22px;
+}
+
+.card-desc{
+    margin-top:6px;
+    font-size:15px;
+    color:#666;
+}
+
+.card-url{
+    margin-top:10px;
+    font-size:13px;
+    color:#999;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+<h1>kzy1225.com</h1>
+<p class="lead">お金・買い物まわりの計算をまとめた小さなツール集です。</p>
+
+<div class="card-list">
+
+<a class="card" href="https://kzy1225.com/exchange">
+<div class="card-title"><span class="card-icon">💴</span>両替最適化</div>
+<div class="card-desc">現在の紙幣・硬貨の枚数から、基準枚数に合わせるための両替（追加・引き出し）を自動計算します。</div>
+<div class="card-url">kzy1225.com/exchange</div>
+</a>
+
+<a class="card" href="https://kzy1225.com/total-the-cash">
+<div class="card-title"><span class="card-icon">🧮</span>現金合計</div>
+<div class="card-desc">複数レーンやレジの現金枚数を券種別に入力して、枚数と金額の合計を自動集計します。</div>
+<div class="card-url">kzy1225.com/total-the-cash</div>
+</a>
+
+<a class="card" href="https://kzy1225.com/unit-price">
+<div class="card-title"><span class="card-icon">🏷️</span>単価お得度ランキング</div>
+<div class="card-desc">価格と内容量から単価を計算し、お得な順にランキング表示します。「85*3」のような計算式にも対応。</div>
+<div class="card-url">kzy1225.com/unit-price</div>
+</a>
+
+<a class="card" href="https://kzy1225.com/test">
+<div class="card-title"><span class="card-icon">🧪</span>テストページ</div>
+<div class="card-desc">動作確認用のテストページです。</div>
+<div class="card-url">kzy1225.com/test</div>
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>
