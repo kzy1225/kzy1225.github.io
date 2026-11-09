@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<title>両替最適化</title>
+
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/legacy.css">
+<script type="module" src="../assets/site.js"></script>
+
+</head>
+
+<body><main class="site-main"><section class="page-heading"><p class="eyebrow">03 / CASH EXCHANGE</p><h1>ちょうどいい枚数に、両替。</h1><p class="lead">基準の枚数と現在の枚数を入力。お金の総額を保ちながら、追加・引き出しの内訳を確認します。</p></section><section class="tool-content">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7442633516920431"
+     crossorigin="anonymous"></script>
+
+
+
+<p class="note">1万円〜1円の10券種に対応。基準を超える余剰分は、大きい券種から振り分けます。</p><div class="table-scroll" tabindex="0" role="region" aria-label="両替枚数の入力表"><table id="moneyTable">
+
+<thead>
+
+<tr>
+
+<th>券種</th>
+
+<th>基準枚数</th>
+
+<th>現在枚数</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>10000円</td>
+<td><button class="spin-btn" onclick="adj('ideal10000',-1)">－</button><input id="ideal10000" value="0"><button class="spin-btn" onclick="adj('ideal10000',1)">＋</button></td>
+<td><button class="spin-btn" onclick="adj('current10000',-1)">－</button><input id="current10000" value=""><button class="spin-btn" onclick="adj('current10000',1)">＋</button></td>
+</tr>
+
+<tr>
+<td>5000円</td>
+<td><button class="spin-btn" onclick="adj('ideal5000',-1)">－</button><input id="ideal5000" value="6"><button class="spin-btn" onclick="adj('ideal5000',1)">＋</button></td>
+<td><button class="spin-btn" onclick="adj('current5000',-1)">－</button><input id="current5000" value=""><button class="spin-btn" onclick="adj('current5000',1)">＋</button></td>
+</tr>
+
+<tr>
+<td>2000円</td>
+<td><button class="spin-btn" onclick="adj('ideal2000',-1)">－</button><input id="ideal2000" value="0"><button class="spin-btn" onclick="adj('ideal2000',1)">＋</button></td>
+<td><button class="spin-btn" onclick="adj('current2000',-1)">－</button><input id="current2000" value=""><button class="spin-btn" onclick="adj('current2000',1)">＋</button></td>
+</tr>
+
+<tr>
+<td>1000円</td>
+<td><button class="spin-btn" onclick="adj('ideal1000',-1)">－</button><input id="ideal1000" value="32"><button class="spin-btn" onclick="adj('ideal1000',1)">＋</button></td>
+<td><button class="spin-btn" onclick="adj('current1000',-1)">－</button><input id="current1000" value=""><button class="spin-btn" onclick="adj('current1000',1)">＋</button></td>
+</tr>
+
+<tr>
+<td>500円</td>
+<td><button class="spin-btn" onclick="adj('ideal500',-1)">－</button><input id="ideal500" value="50"><button class="spin-btn" onclick="adj('ideal500',1)">＋</button></td>
+<td><button class="spin-btn" onclick="adj('current500',-1)">－</button><input id="current500" value=""><button class="spin-btn" onclick="adj('current500',1)">＋</button></td>
+</tr>
+
+<tr>
+<td>100円</td>
+<td><button class="spin-btn" onclick="adj('ideal100',-1)">－</button><input id="ideal100" value="100"><button class="spin-btn" onclick="adj('ideal100',1)">＋</button></td>
+<td><button class="spin-btn" onclick="adj('current100',-1)">－</button><input id="current100" value=""><button class="spin-btn" onclick="adj('current100',1)">＋</button></td>
+</tr>
+
+<tr>
+<td>50円</td>
+<td><button class="spin-btn" onclick="adj('ideal50',-1)">－</button><input id="ideal50" value="35"><button class="spin-btn" onclick="adj('ideal50',1)">＋</button></td>
+<td><button class="spin-btn" onclick="adj('current50',-1)">－</button><input id="current50" value=""><button class="spin-btn" onclick="adj('current50',1)">＋</button></td>
+</tr>
+
+<tr>
+<td>10円</td>
+<td><button class="spin-btn" onclick="adj('ideal10',-1)">－</button><input id="ideal10" value="100"><button class="spin-btn" onclick="adj('ideal10',1)">＋</button></td>
+<td><button class="spin-btn" onclick="adj('current10',-1)">－</button><input id="current10" value=""><button class="spin-btn" onclick="adj('current10',1)">＋</button></td>
+</tr>
+
+<tr>
+<td>5円</td>
+<td><button class="spin-btn" onclick="adj('ideal5',-1)">－</button><input id="ideal5" value="40"><button class="spin-btn" onclick="adj('ideal5',1)">＋</button></td>
+<td><button class="spin-btn" onclick="adj('current5',-1)">－</button><input id="current5" value=""><button class="spin-btn" onclick="adj('current5',1)">＋</button></td>
+</tr>
+
+<tr>
+<td>1円</td>
+<td><button class="spin-btn" onclick="adj('ideal1',-1)">－</button><input id="ideal1" value="50"><button class="spin-btn" onclick="adj('ideal1',1)">＋</button></td>
+<td><button class="spin-btn" onclick="adj('current1',-1)">－</button><input id="current1" value=""><button class="spin-btn" onclick="adj('current1',1)">＋</button></td>
+</tr>
+
+</tbody>
+
+</table></div>
+
+<br>
+
+<button class="primary" onclick="optimize()">両替の内訳を計算する</button>
+
+<div id="result"></div>
+
+<script>
+
+const denoms=[10000,5000,2000,1000,500,100,50,10,5,1];
+
+function adj(id, delta) {
+    const el = document.getElementById(id);
+    const v = Number(el.value) + delta;
+    el.value = v < 0 ? 0 : v;
+    updateAmt(el);
+    saveData();
+}
+
+function updateAmt(el) {
+    const lbl = document.getElementById('lbl_' + el.id);
+    if (!lbl) return;
+    const denom = Number(el.id.match(/\d+$/)[0]);
+    const count = Number(el.value) || 0;
+    lbl.textContent = (count * denom).toLocaleString() + '円';
+}
+
+function optimizeExchange(data) {
+
+    data = [...data].sort((a, b) => b[0] - a[0]);
+
+    const denoms  = data.map(d => d[0]);
+    const ideal   = data.map(d => d[1]);
+    const current = data.map(d => d[2]);
+    const n = denoms.length;
+
+    const currentTotal = current.reduce((sum, c, i) => sum + c * denoms[i], 0);
+    const idealTotal   = ideal.reduce((sum, v, i) => sum + v * denoms[i], 0);
+
+    let surplus = currentTotal - idealTotal;
+
+    if (surplus < 0) {
+        return {
+            error: `現在の総金額（${currentTotal.toLocaleString()}円）が基準枚数の合計金額（${idealTotal.toLocaleString()}円）を下回っています。`,
+            add: [], remove: [],
+            before_total: currentTotal,
+            after_total: 0,
+            valid: false
+        };
+    }
+
+    // 基準枚数をベースに、余剰を大面額から貪欲に分配（余剰枚数を最小化）
+    const result = [...ideal];
+    for (let i = 0; i < n; i++) {
+        const cnt = Math.floor(surplus / denoms[i]);
+        result[i] += cnt;
+        surplus -= cnt * denoms[i];
+    }
+
+    const add    = result.map((r, i) => Math.max(0, r - current[i]));
+    const remove = result.map((r, i) => Math.max(0, current[i] - r));
+
+    const addList    = [];
+    const removeList = [];
+    for (let i = 0; i < n; i++) {
+        if (add[i]    > 0) addList.push([denoms[i], add[i]]);
+        if (remove[i] > 0) removeList.push([denoms[i], remove[i]]);
+    }
+
+    const after = result.reduce((sum, r, i) => sum + r * denoms[i], 0);
+
+    return {
+        add: addList,
+        remove: removeList,
+        counts: denoms.map((d, i) => [d, result[i]]),
+        before_total: currentTotal,
+        after_total: after,
+        valid: currentTotal === after
+    };
+
+}
+
+// ================================
+// 画面表示
+// ================================
+
+function optimize() {
+    if (!validateCounts()) return;
+
+    const data = [];
+
+    for (const d of denoms) {
+
+        data.push([
+            d,
+            Number(document.getElementById("ideal" + d).value),
+            Number(document.getElementById("current" + d).value)
+        ]);
+
+    }
+
+    const result = optimizeExchange(data);
+
+    let html = "";
+
+    if (result.error) {
+        html += `<p style="color:red"><b>エラー：</b>${result.error}</p>`;
+        document.getElementById("result").innerHTML = html;
+        return;
+    }
+
+    html += "<h2>追加する</h2>";
+
+    if (result.add.length === 0) {
+
+        html += "<p>なし</p>";
+
+    } else {
+
+        html += "<ul>";
+
+        for (const [money, count] of result.add) {
+
+            html += `<li>${money.toLocaleString()}円 × ${count}枚</li>`;
+
+        }
+
+        html += "</ul>";
+
+    }
+
+    html += "<h2>引き出す</h2>";
+
+    if (result.remove.length === 0) {
+
+        html += "<p>なし</p>";
+
+    } else {
+
+        html += "<ul>";
+
+        for (const [money, count] of result.remove) {
+
+            html += `<li>${money.toLocaleString()}円 × ${count}枚</li>`;
+
+        }
+
+        html += "</ul>";
+
+    }
+
+    html += "<h2>整理後の枚数</h2>";
+    html += "<ul>";
+    for (const [money, count] of result.counts) {
+        html += `<li>${money.toLocaleString()}円 × ${count}枚</li>`;
+    }
+    html += "</ul>";
+
+    html += "<hr>";
+
+    html += `<p><b>両替前合計：</b>${result.before_total.toLocaleString()} 円</p>`;
+
+    html += `<p><b>両替後合計：</b>${result.after_total.toLocaleString()} 円</p>`;
+
+    html += `<p><b>金額一致：</b>${result.valid ? "✅ OK" : "❌ NG"}</p>`;
+
+    document.getElementById("result").innerHTML = html;
+
+}
+
+// ================================
+// 保存
+// ================================
+
+function saveData() {
+
+    const save = {};
+
+    for (const d of denoms) {
+
+        save["ideal" + d] =
+            document.getElementById("ideal" + d).value;
+
+        save["current" + d] =
+            document.getElementById("current" + d).value;
+
+    }
+
+    try { localStorage.setItem("money_exchange_data", JSON.stringify(save)); } catch {}
+
+}
+
+// ================================
+// 読み込み
+// ================================
+
+function loadData() {
+    try {
+        const save = JSON.parse(localStorage.getItem("money_exchange_data") || 'null');
+        if (!save || typeof save !== 'object') return;
+        for (const d of denoms) for (const prefix of ['ideal', 'current']) {
+            const key=prefix+d;
+            if(typeof save[key]==='string' || typeof save[key]==='number') document.getElementById(key).value=String(save[key]);
+        }
+    } catch {}
+}
+function validateCounts() {
+    let valid=true;
+    document.querySelectorAll('#moneyTable input').forEach(el=>{
+        const n=Number(el.value);
+        const ok=Number.isSafeInteger(n)&&n>=0&&n<=1000000;
+        el.setAttribute('aria-invalid',String(!ok));
+        if(!ok)valid=false;
+    });
+    if(!valid) document.getElementById('result').textContent='枚数は0〜1,000,000の整数で入力してください。';
+    return valid;
+}
+function copyIdeal() {
+    if(!validateCounts())return;
+    if(!confirm('現在枚数を基準枚数にコピーしますか？'))return;
+    for(const d of denoms) document.getElementById('ideal'+d).value=document.getElementById('current'+d).value||'0';
+    document.querySelectorAll('#moneyTable input').forEach(updateAmt);saveData();
+}
+function resetCurrent() {
+    if(!confirm('現在枚数をすべて0にしますか？'))return;
+    for(const d of denoms)document.getElementById('current'+d).value='0';
+    document.querySelectorAll('#moneyTable input').forEach(updateAmt);saveData();document.getElementById('result').textContent='';
+}
+function clearSave() {
+    if(!confirm('保存された両替データを削除しますか？画面の入力は残ります。'))return;
+    try {localStorage.removeItem('money_exchange_data');document.getElementById('exchangeStatus').textContent='保存データを削除しました。次の入力変更で再び保存します。';} catch {document.getElementById('exchangeStatus').textContent='保存領域にアクセスできません。';}
+}
+
+loadData();
+
+document.querySelectorAll('#moneyTable input').forEach(el => {
+    const denom = Number(el.id.match(/\d+$/)?.[0]);
+    if (!denom) return;
+    const lbl = document.createElement('div');
+    lbl.id = 'lbl_' + el.id;
+    lbl.className = 'amt-label';
+    el.parentNode.appendChild(lbl);
+    el.inputMode='numeric'; el.maxLength=7; el.setAttribute('aria-label',(el.id.startsWith('ideal')?'基準':'現在')+' '+denom+'円の枚数');
+    el.addEventListener('input', () => { updateAmt(el); saveData(); });
+    updateAmt(el);
+});
+
+function updateDiff() {
+
+    for (const d of denoms) {
+
+        const ideal =
+            Number(document.getElementById("ideal"+d).value);
+
+        const current =
+            Number(document.getElementById("current"+d).value);
+
+        const diff = ideal-current;
+
+        const obj =
+            document.getElementById("diff"+d);
+
+        if(!obj) continue;
+
+        if(diff>0){
+
+            obj.textContent="あと "+diff+"枚";
+            obj.style.color="red";
+
+        }else if(diff<0){
+
+            obj.textContent="余り "+(-diff)+"枚";
+            obj.style.color="blue";
+
+        }else{
+
+            obj.textContent="OK";
+            obj.style.color="green";
+
+        }
+
+    }
+
+}
+
+function makeList(title,list){
+
+    let html=`<h2>${title}</h2>`;
+
+    if(list.length==0){
+
+        html+="なし";
+
+        return html;
+
+    }
+
+    html+="<table>";
+
+    html+="<tr><th>券種</th><th>枚数</th></tr>";
+
+    for(const [money,count] of list){
+
+        html+=`
+        <tr>
+        <td>${money.toLocaleString()}円</td>
+        <td>${count}枚</td>
+        </tr>
+        `;
+
+    }
+
+    html+="</table>";
+
+    return html;
+
+}
+
+</script>
+<div class="toolbar exchange-actions">
+
+<button onclick="copyIdeal()">
+現在枚数を基準にする
+</button>
+
+<button onclick="resetCurrent()">
+現在枚数を0にする
+</button>
+
+<button onclick="clearSave()">
+保存削除
+</button>
+</div><p id="exchangeStatus" class="hint" role="status"></p></section></main></body>
+</html>

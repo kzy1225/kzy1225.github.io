@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<title>単価お得度ランキング</title>
+
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/legacy.css">
+<script type="module" src="../assets/site.js"></script>
+
+</head>
+
+<body><main class="site-main"><section class="page-heading"><p class="eyebrow">04 / SMART COMPARISON</p><h1>お得なほうを、数字で選ぶ。</h1><p class="lead">価格と内容量を揃えて比べれば、お買い物の選択がもっとわかりやすく。</p></section><section class="tool-content">
+
+
+
+<p class="note">価格と内容量を入力すると、単価（1単位あたりの値段）が安い順に自動でランキングします。単位はg・ml・個など揃えて入力してください。価格・内容量欄は「85*3」のように掛け算などの式でも入力できます。</p>
+
+<div class="table-scroll">
+<table id="itemTable">
+<thead>
+<tr>
+<th>商品名</th>
+<th>価格（円）</th>
+<th>内容量</th>
+<th>単位</th>
+<th>削除</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+<div class="row-controls">
+<button onclick="addRow()">＋ 行を追加</button>
+</div>
+
+<div id="ranking"></div>
+
+<script>
+
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, ch => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+}
+
+// "85*3" のような四則演算の式を安全に評価する（数字・+ - * / ( ) . 空白のみ許可）
+function evalExpr(str) {
+    if (!str) return NaN;
+    const trimmed = str.trim();
+    if (!/^[0-9+\-*/().\s]+$/.test(trimmed)) return NaN;
+    try {
+        const result = Function(`"use strict";return (${trimmed})`)();
+        return typeof result === 'number' && isFinite(result) ? result : NaN;
+    } catch (e) {
+        return NaN;
+    }
+}
+
+function addRow(name = '', price = '', amount = '', unit = 'g') {
+    const tbody = document.querySelector('#itemTable tbody');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td><input aria-label="商品名" type="text" class="name" placeholder="商品名" value="${escapeHtml(name)}"></td>
+        <td><input aria-label="価格（円）" type="tel" class="price" placeholder="0" value="${escapeHtml(price)}"><div class="calc-hint"></div></td>
+        <td><input aria-label="内容量" type="tel" class="amount" placeholder="0" value="${escapeHtml(amount)}"><div class="calc-hint"></div></td>
+        <td><input aria-label="単位" type="text" class="unit" placeholder="g" value="${escapeHtml(unit)}"></td>
+        <td><button class="del-btn" onclick="removeRow(this)">削除</button></td>
+    `;
+    tbody.appendChild(tr);
+    tr.querySelectorAll('.price, .amount').forEach(updateCalcHint);
+    renderRanking();
+}
+
+function removeRow(btn) {
+    btn.closest('tr').remove();
+    renderRanking();
+}
+
+function updateCalcHint(input) {
+    const hint = input.nextElementSibling;
+    if (!hint || !hint.classList.contains('calc-hint')) return;
+    const raw = input.value;
+    const val = evalExpr(raw);
+    if (/[+\-*/]/.test(raw) && !isNaN(val)) {
+        hint.textContent = '＝ ' + (Number.isInteger(val) ? val : val.toFixed(2));
+    } else {
+        hint.textContent = '';
+    }
+}
+
+function readItems() {
+    const rows = document.querySelectorAll('#itemTable tbody tr');
+    const items = [];
+    rows.forEach((row, i) => {
+        const name = row.querySelector('.name').value.trim() || `商品${i + 1}`;
+        const price = evalExpr(row.querySelector('.price').value);
+        const amount = evalExpr(row.querySelector('.amount').value);
+        const unit = row.querySelector('.unit').value.trim() || '単位';
+        if (!isNaN(price) && price >= 0 && !isNaN(amount) && amount > 0) {
+            items.push({ name, unit, unitPrice: price / amount });
+        }
+    });
+    return items;
+}
+
+function renderRanking() {
+    const container = document.getElementById('ranking');
+    const items = readItems();
+
+    if (items.length === 0) {
+        container.innerHTML = '<p>価格と内容量を入力すると、ランキングが表示されます。</p>';
+        return;
+    }
+
+    items.sort((a, b) => a.unitPrice - b.unitPrice);
+    const worst = items[items.length - 1].unitPrice;
+
+    let html = '<div class="table-scroll"><table id="rankTable"><thead><tr><th>順位</th><th>商品名</th><th>単価</th><th>お得度</th></tr></thead><tbody>';
+
+    items.forEach((it, i) => {
+        const rank = i + 1;
+        const medal = rank === 1 ? '🥇 ' : rank === 2 ? '🥈 ' : rank === 3 ? '🥉 ' : '';
+        const saving = worst > 0 ? (1 - it.unitPrice / worst) * 100 : 0;
+        const savingText = (items.length > 1 && rank < items.length)
+            ? `${saving.toFixed(1)}% お得`
+            : '－';
+
+        html += `<tr class="rank-${rank <= 3 ? rank : 'other'}">
+            <td>${medal}${rank}位</td>
+            <td>${escapeHtml(it.name)}</td>
+            <td>${it.unitPrice.toFixed(2)}円 / ${escapeHtml(it.unit)}</td>
+            <td>${savingText}</td>
+        </tr>`;
+    });
+
+    html += '</tbody></table></div>';
+
+    if (items.length > 1) {
+        const worstName = items[items.length - 1].name;
+        html += `<p class="note">※お得度は、最も割高な「${escapeHtml(worstName)}」と比べて単価がどれだけ安いかを示しています。</p>`;
+    }
+
+    container.innerHTML = html;
+}
+
+document.querySelector('#itemTable tbody').addEventListener('input', (e) => {
+    if (e.target.classList.contains('price') || e.target.classList.contains('amount')) {
+        updateCalcHint(e.target);
+    }
+    renderRanking();
+});
+
+addRow();
+addRow();
+addRow();
+
+</script>
+
+</section></main></body>
+</html>
